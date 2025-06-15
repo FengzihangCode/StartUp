@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var apps: [AppInfo] = []
+    @State private var page: Int = 0
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ZStack {
+            BlurredWallpaperView()
+            AppGridView(apps: $apps, page: $page)
         }
-        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear {
+            apps = AppListProvider.fetchApplications()
+        }
     }
 }
 
